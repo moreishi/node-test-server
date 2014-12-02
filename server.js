@@ -5,13 +5,25 @@
 
 // gcm.notifyDevice('OK', 'notification title', 'my message');
 
+var mandrill = require('mandrill-api/mandrill');
+var mandrill_client = new mandrill.Mandrill('8CxQDZgz9NFqkIZhSCrhuQ');
 var express = require('express')
 var app = express()
 
+var bodyParser = require('body-parser');
+var multer = require('multer'); 
+
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(multer()); // for parsing multipart/form-data
+
+app.post('/regid', function (req, res) {
+  console.log(req.param('regid'));
+  res.send('post');
+})
+
 app.get('/:regid', function (req, res) {
-  // req.query.regid;
-  console.log(req.params.regid);
-  res.send(JSON.stringify(req.params.regid));
+  res.send('get');
 })
 
 var server = app.listen(1337, function () {
