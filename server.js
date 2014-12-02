@@ -5,8 +5,6 @@
 
 // gcm.notifyDevice('OK', 'notification title', 'my message');
 
-var mandrill = require('mandrill-api/mandrill');
-var mandrill_client = new mandrill.Mandrill('8CxQDZgz9NFqkIZhSCrhuQ');
 var express = require('express')
 var app = express()
 
