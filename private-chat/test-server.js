@@ -136,12 +136,18 @@ db.once('open', function callback() {
         var current_user = res[0].fb_id;
         console.log('current_user:' + current_user);
 
+        var users = [];
+        users.push(message.to_user);
+        users.push(current_user);
+
+        var message = {
+          user: current_user,
+          message: message.message
+        }
+
         var model_conversation = new Conversations({
-          users: [message.to_user,current_user],
-          messages: [{
-            user: current_user,
-            message: message.message
-          }]
+          users: users,
+          messages: [message]
         });
 
         model_conversation.save(function(err, data) {
