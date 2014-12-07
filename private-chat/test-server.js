@@ -168,3 +168,11 @@ db.once('open', function callback() {
   });
 
 });
+
+// makes life easier
+
+function getModel(model,options,callback) {
+  model.find(options, function(err, res) {
+    callback(res);
+  });
+}
