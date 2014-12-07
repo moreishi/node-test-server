@@ -1,0 +1,14 @@
+{
+  "name": "test",
+  "description": "",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.9.0",
+    "bson": "^0.2.15",
+    "express": "^4.9.8",
+    "mongodb": "^1.4.23",
+    "mongoose": "^3.8.20",
+    "socket.io": "^1.0"
+  }
+}
