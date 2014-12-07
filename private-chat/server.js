@@ -121,6 +121,7 @@ db.once('open', function callback() {
 
     client.on('private message', function(message) {
 
+      console.log(client.id);
 
       getModel(Sessions,{ session_id: client.id },function(res) {
         console.log(res);
