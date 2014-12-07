@@ -121,35 +121,32 @@ db.once('open', function callback() {
 
     client.on('private message', function(message) {
 
-      // console.log(client.id);
-      // io.to(client.id).emit('private message', message);
-
       getModel(Sessions,{ session_id: client.id },function(res) {
-        console.log(res);
-      //   var model_conversation = new Conversations();
-      //   model_conversation.sender = res.fb_id;
-      //   model_conversation.user = message.to_user;      
-      //   model_conversation.message = message.message;
 
-      //   model_conversation.save(function(err, data) {
+        var model_conversation = new Conversations();
+        model_conversation.sender = res.fb_id;
+        model_conversation.user = message.to_user;
+        model_conversation.message = message.message;
+
+        model_conversation.save(function(err, data) {
         
-      //     // debug
-      //     console.log(err);
-      //     console.log(data);
+          // debug
+          console.log(err);
+          console.log(data);
 
-      //     var emit_message = {
-      //       user: data.to_user,
-      //       message: data.message
-      //     };
+          // var emit_message = {
+          //   user: data.to_user,
+          //   message: data.message
+          // };
 
-      //     getModel(Sessions,{ fb_id: data.to_user }, function(res_b) {
-      //       console.log(res_b);
-      //       res_b.map(function(val, key){
-      //         io.to(val.session_id).emit('private message', emit_message);
-      //       });
-      //     })
+          getModel(Sessions,{ fb_id: data.to_user }, function(res_b) {
+            console.log(res_b);
+            // res_b.map(function(val, key){
+            //   io.to(val.session_id).emit('private message', emit_message);
+            // });
+          })
 
-      //   });
+        });
 
       });
 
