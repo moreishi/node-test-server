@@ -135,7 +135,9 @@ db.once('open', function callback() {
           getModel(Sessions,{ fb_id: message.to_user },function(res) {
            
             res.map(function(val,key,arr) {
-              console.log(val);
+              console.log('sending to');
+              console.log(val.fb_id);
+              console.log(val.session_id);
               io.to(val.session_id).emit('private message', data);
             });
 
