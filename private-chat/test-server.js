@@ -133,11 +133,16 @@ db.once('open', function callback() {
       getModel(Sessions,{ session_id: client.id },function(res) {
 
 
-         var current_user = res[0].fb_id;
+        var current_user = res[0].fb_id;
+        console.log('current_user:' + current_user);
 
-        var model_conversation = new Conversations();
-        model_conversation.users = [message.to_user,current_user];
-        model_conversation.messages = [{user: current_user, message: message.message}];
+        var model_conversation = new Conversations({
+          users: [message.to_user,current_user],
+          messages: [{
+            user: current_user,
+            message: message.message
+          }]
+        });
 
         model_conversation.save(function(err, data) {
           getModel(Sessions,{ fb_id: message.to_user },function(res) {
