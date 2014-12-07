@@ -122,7 +122,8 @@ db.once('open', function callback() {
     client.on('private message', function(message) {
 
       getModel(Sessions,{ session_id: client.id },function(res) {
-
+        console.log(res);
+        console.log(res[0].fb_id);
         console.log(res.fb_id);
 
         // var model_conversation = new Conversations();
