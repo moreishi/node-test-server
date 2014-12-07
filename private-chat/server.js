@@ -123,6 +123,8 @@ db.once('open', function callback() {
 
       getModel(Sessions,{ session_id: client.id },function(res) {
 
+        console.log(res);
+
         var model_conversation = new Conversations();
         model_conversation.sender = res.fb_id;
         model_conversation.user = message.to_user;
@@ -133,18 +135,6 @@ db.once('open', function callback() {
           // debug
           console.log(err);
           console.log(data);
-
-          // var emit_message = {
-          //   user: data.to_user,
-          //   message: data.message
-          // };
-
-          getModel(Sessions,{ fb_id: data.to_user }, function(res_b) {
-            console.log(res_b);
-            // res_b.map(function(val, key){
-            //   io.to(val.session_id).emit('private message', emit_message);
-            // });
-          })
 
         });
 
