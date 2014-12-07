@@ -125,18 +125,18 @@ db.once('open', function callback() {
 
         console.log(res);
 
-        var model_conversation = new Conversations();
-        model_conversation.sender = res.fb_id;
-        model_conversation.user = message.to_user;
-        model_conversation.message = message.message;
+        // var model_conversation = new Conversations();
+        // model_conversation.sender = res.fb_id;
+        // model_conversation.user = message.to_user;
+        // model_conversation.message = message.message;
 
-        model_conversation.save(function(err, data) {
+        // model_conversation.save(function(err, data) {
         
-          // debug
-          console.log(err);
-          console.log(data);
+        //   // debug
+        //   console.log(err);
+        //   console.log(data);
 
-        });
+        // });
 
       });
 
