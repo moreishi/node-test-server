@@ -133,6 +133,8 @@ db.once('open', function callback() {
       getModel(Sessions,{ session_id: client.id },function(res) {
 
 
+         var current_user = res[0].fb_id;
+
         var model_conversation = new Conversations();
         model_conversation.users = [message.to_user,current_user];
         model_conversation.messages = [{user: current_user, message: message.message}];
