@@ -138,7 +138,9 @@ db.once('open', function callback() {
         model_conversation.messages = [{user: current_user, message: message.message}];
 
         model_conversation.save(function(err, data) {
-          getModel(Sessions,{ fb_id: message.to_user },function(res) {           
+          getModel(Sessions,{ fb_id: message.to_user },function(res) {
+            console.log('saved');
+            console.log(res);
             res.map(function(val,key,arr) {
               io.to(val.session_id).emit('private message', data);
             });
