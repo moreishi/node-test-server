@@ -123,7 +123,7 @@ db.once('open', function callback() {
 
 
       getModel(Sessions,{ session_id: client.id },function(res) {
-        
+        console.log(res);
         var model_conversation = new Conversations();
         model_conversation.sender = res.fb_id;
         model_conversation.user = message.to_user;      
