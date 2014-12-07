@@ -34,18 +34,30 @@ var shout = mongoose.Schema({
   created_at: { type: Date, default: Date.now }
 });
 
+// var conversation = mongoose.Schema({
+//   user: String,
+//   sender: String,
+//   message: String,
+//   created_at: { type: Date, default: Date.now },
+//   read: { type: Boolean, default: false }
+// });
+
 var conversation = mongoose.Schema({
-  user: String,
-  sender: String,
-  message: String,
-  created_at: { type: Date, default: Date.now },
-  read: { type: Boolean, default: false }
+  users: [String],
+  messages: [{
+    user: String,
+    message: { type: String, default: 'No message to show' },
+    created_at: { type: Date, default: Date.now },
+    read: { type: Boolean, default: false }
+  }],
+  block: { type: Boolean, default: false }
 });
 
 // MODEL
 var Sessions = mongoose.model('Sessions', session);
 var Shouts = mongoose.model('Shouts', shout);
 var Conversations = mongoose.model('Conversations', conversation);
+// var Contacts = mongoose.model('Contacts', contact);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -111,37 +123,26 @@ db.once('open', function callback() {
 
     // on disconnect
     client.on('disconnect', function() {
-
       Sessions.remove({ session_id: this.id }, function(err, res) {
         console.log('Session terminated: ' + res);
       });
-
     });
 
     client.on('private message', function(message) {
 
       getModel(Sessions,{ session_id: client.id },function(res) {
 
+
         var model_conversation = new Conversations();
-        model_conversation.sender = res[0].fb_id;
-        model_conversation.user = message.to_user;
-        model_conversation.message = message.message;
+        model_conversation.users = [message.to_user,current_user];
+        model_conversation.messages = [{user: current_user, message: message.message}];
 
         model_conversation.save(function(err, data) {
-          
-          console.log(data);
-
-          getModel(Sessions,{ fb_id: message.to_user },function(res) {
-           
+          getModel(Sessions,{ fb_id: message.to_user },function(res) {           
             res.map(function(val,key,arr) {
-              console.log('sending to');
-              console.log(val.fb_id);
-              console.log(val.session_id);
               io.to(val.session_id).emit('private message', data);
             });
-
           });
-
         });
 
       });
@@ -150,36 +151,17 @@ db.once('open', function callback() {
 
   });
   
-  // http
+  app.get('/',function(req,res,err) {   
 
-  app.route('/shouts')
-  .get(function(req, res, next) {
-    
-    Shouts.find(function(err, shouts) {
-      if(err) next(err);
+    Contacts.find({ $and: [{users: '2222'},{users: '0000'},{users: '3333'}] }, function(err, data) {
+      console.log(JSON.stringify(data));
       res.setHeader('Content-Type', 'application/json');
-      res.end(JSON.stringify(shouts));
+      res.end(JSON.stringify(data));
     });
-
-  })
-  .post(function(req, res, next) {
     
-    var shagit = new Shouts({
-      user: { id: req.param('id'), name: req.param('name') },
-      message: req.param('message'),
-      coords: { longitude: req.param('longitude'), latitude: req.param('latitude') },
-      created_at: new Date()
-    });
-
-    shagit.save(function(err, result) {
-      if(err) next(err);
-      res.setHeader('Content-Type', 'application/json');
-      res.end(JSON.stringify({ success: true, shout: result }));
-    });
-
   });
 
-  http.listen(8080, function(){
+  http.listen(port, function(){
     console.log('listening on *:' + port);
   });
 
