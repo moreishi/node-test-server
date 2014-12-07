@@ -122,22 +122,26 @@ db.once('open', function callback() {
     client.on('private message', function(message) {
 
       getModel(Sessions,{ session_id: client.id },function(res) {
-        console.log(res);
-        console.log(res[0].fb_id);
-        console.log(res.fb_id);
 
-        // var model_conversation = new Conversations();
-        // model_conversation.sender = res.fb_id;
-        // model_conversation.user = message.to_user;
-        // model_conversation.message = message.message;
+        var model_conversation = new Conversations();
+        model_conversation.sender = res[0].fb_id;
+        model_conversation.user = message.to_user;
+        model_conversation.message = message.message;
 
-        // model_conversation.save(function(err, data) {
-        
-        //   // debug
-        //   console.log(err);
-        //   console.log(data);
+        model_conversation.save(function(err, data) {
+          
+          console.log(data);
 
-        // });
+          getModel(Sessions,{ fb_id: message.to_user },function(res) {
+           
+            res.map(function(val,key,arr) {
+              console.log(val);
+              io.to(val.session_id).emit('private message', data);
+            });
+
+          });
+
+        });
 
       });
 
