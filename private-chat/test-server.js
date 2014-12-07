@@ -134,7 +134,7 @@ db.once('open', function callback() {
 
       getModel(Sessions,{ session_id: client.id },function(res) {
 
-        if(typeof res[0].fb_id === undefined) console.log('check your socket session'); return;
+        if(typeof res[0].fb_id === undefined) console.log('check your socket session');
 
         var current_user = res[0].fb_id;
         console.log('current_user:' + current_user);
