@@ -121,11 +121,11 @@ db.once('open', function callback() {
 
     client.on('private message', function(message) {
 
-      console.log(client.id);
-      io.to(client.id).emit('private message', message);
+      // console.log(client.id);
+      // io.to(client.id).emit('private message', message);
 
-      // getModel(Sessions,{ session_id: client.id },function(res) {
-      //   console.log(res);
+      getModel(Sessions,{ session_id: client.id },function(res) {
+        console.log(res);
       //   var model_conversation = new Conversations();
       //   model_conversation.sender = res.fb_id;
       //   model_conversation.user = message.to_user;      
@@ -151,7 +151,7 @@ db.once('open', function callback() {
 
       //   });
 
-      // });
+      });
 
     });
 
