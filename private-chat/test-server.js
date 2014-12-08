@@ -135,12 +135,12 @@ db.once('open', function callback() {
         if(typeof res[0].fb_id === undefined) console.log('check your socket session');
 
         console.log(message);
-
+        var to_user = message.to_user;
         var current_user = res[0].fb_id;
         console.log('current_user:' + current_user);
 
         var users = [];
-        users.push(message.to_user);
+        users.push(to_user);
         users.push(current_user);
 
         var message = {
