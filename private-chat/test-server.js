@@ -132,30 +132,29 @@ db.once('open', function callback() {
 
       console.log(message);
       var to_user = message.to_user;
+      var message = message.message;
 
       getModel(Sessions,{ session_id: client.id },function(res) {
 
         if(typeof res[0].fb_id === undefined) console.log('check your socket session');
-        
-        var current_user = res[0].fb_id;
-        console.log('current_user:' + current_user);
 
+        var current_user = res[0].fb_id;
         var users = [];
         users.push(to_user);
         users.push(current_user);
 
-        var message = {
+        var save_message = {
           user: current_user,
-          message: message.message
+          message: message
         }
 
         var model_conversation = new Conversations({
           users: users,
-          messages: [message]
+          messages: [save_message]
         });
 
         model_conversation.save(function(err, data) {
-          getModel(Sessions,{ fb_id: message.to_user },function(res) {
+          getModel(Sessions,{ fb_id: to_user },function(res) {
             console.log('saved');
             console.log(res);
             res.map(function(val,key,arr) {
